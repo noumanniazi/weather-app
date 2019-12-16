@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Testing TemperatureScales Component Matches TemperatureScales snapshot 1`] = `
+<div
+  className="temperature-scale"
+>
+  <div
+    className="ant-radio-group ant-radio-group-outline"
+  >
+    <label
+      className="ant-radio-wrapper ant-radio-wrapper-checked"
+    >
+      <span
+        className="ant-radio ant-radio-checked"
+        style={Object {}}
+      >
+        <input
+          checked={true}
+          className="ant-radio-input"
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          type="radio"
+          value="C"
+        />
+        <span
+          className="ant-radio-inner"
+        />
+      </span>
+      <span>
+        Celsius
+      </span>
+    </label>
+    <label
+      className="ant-radio-wrapper"
+    >
+      <span
+        className="ant-radio"
+        style={Object {}}
+      >
+        <input
+          checked={false}
+          className="ant-radio-input"
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          type="radio"
+          value="F"
+        />
+        <span
+          className="ant-radio-inner"
+        />
+      </span>
+      <span>
+        Fahrenheit
+      </span>
+    </label>
+  </div>
+</div>
+`;

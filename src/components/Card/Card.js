@@ -9,12 +9,12 @@ import AntDCard from "antd/lib/card";
 import "./Card.scss";
 
 const Card = props => {
-  const { temperature, date, humidity } = props;
+  const { temperature, date, humidity, handleCardClick, isSelected } = props;
   return (
     <div
-    className="cardWrapper"
+      className={`cardWrapper ${isSelected === true ? "selected" : ""}`}
       onClick={() => {
-        console.log("clicked", date);
+        handleCardClick(date);
       }}
     >
       <AntDCard hoverable>
@@ -39,5 +39,7 @@ Card.prototype = {
   temperature: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
   humidity: PropTypes.string.isRequired,
+  handleCardClick: PropTypes.func.isRequired,
+  isSelected: PropTypes.bool.isRequired
 };
 export default Card;

@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Testing Card Component Matches Card snapshot 1`] = `
+<div
+  className="cardWrapper "
+  onClick={[Function]}
+>
+  <div
+    className="ant-card ant-card-bordered ant-card-hoverable"
+  >
+    <div
+      className="ant-card-body"
+      style={Object {}}
+    >
+      <div>
+        <span
+          className="bold-text"
+        >
+          Temp: 
+        </span>
+        <span>
+          6.13C
+        </span>
+      </div>
+      <div>
+        <span
+          className="bold-text"
+        >
+          Date: 
+        </span>
+        <span>
+          2019-12-18
+        </span>
+      </div>
+      <div>
+        <span
+          className="bold-text"
+        >
+          humidity: 
+        </span>
+        <span>
+          81.75
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -1,4 +1,4 @@
-const convertToFahrenheit = celsius => {
+export const convertToFahrenheit = celsius => {
   return (celsius * 9) / 5 + 32;
 };
 export const tempConverter = (temp, scale) => {
@@ -8,13 +8,14 @@ export const tempConverter = (temp, scale) => {
   return Math.round(convertToFahrenheit(temp) * 100) / 100;
 };
 
-export const uniqDates = data => data.reduce((accum, item) => {
-	const date = item.dt_txt.split(" ")[0];
-	if (!accum.includes(date)) {
-		return [...accum, date];
-	}
-	return [...accum];
-}, []);
+export const uniqDates = data =>
+  data.reduce((accum, item) => {
+    const date = item.dt_txt.split(" ")[0];
+    if (!accum.includes(date)) {
+      return [...accum, date];
+    }
+    return [...accum];
+  }, []);
 export const calculateAvgTempAndHumidityOfDays = data => {
   const uniqueDates = uniqDates(data);
   const avgTemps = uniqueDates.map(date => {
@@ -46,4 +47,37 @@ export const calculateAvgTempAndHumidityOfDays = data => {
     };
   });
   return avgTemps;
+};
+
+const splitDateAndTime = date => {
+  return date.dt_txt.split(" ");
+};
+export const getFirstDay = data => {
+  return splitDateAndTime(data[0])[0];
+};
+export const calculateChartsData = (selectedDate, data) => {
+  // categories for the chart
+  // ***********************************
+  // * ['00:00', '03:00', '06:00', ..] *
+  // ***********************************
+  //
+  // series for the chart
+  // ******************************************
+  // * {name: '', data: [49.9, 71.5, 106.4] } *
+  // ******************************************
+  return data.reduce(
+    (accum, dateItem) => {
+      const splittedDate = splitDateAndTime(dateItem);
+      if (splittedDate[0] === selectedDate) {
+        return {
+          categories: [...accum.categories, splittedDate[1]],
+          series: [...accum.series, dateItem.main.temp]
+        };
+      }
+      return {
+        ...accum
+      };
+    },
+    { categories: [], series: [] }
+  );
 };

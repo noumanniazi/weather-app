@@ -10,19 +10,20 @@ import { startFetching, stopFetching, fetchData } from "../../actions";
 import {
   SUCCESSFUL,
   tempConverter,
-  calculateAvgTempAndHumidityOfDays
+  calculateAvgTempAndHumidityOfDays,
+  calculateChartsData,
+  getFirstDay
 } from "../../utils";
 import Card from "../../components/Card";
 import "./Weather.scss";
 import TemperatureScales from "../../components/TemperatureScales";
-import BarChart from '../../components/BarChart';
+import BarChart from "../../components/BarChart";
 
 const Weather = props => {
   // STATEFUL Logic
   const [currentScale, setCurrentScale] = useState("C");
   const [pageIndex, setPageIndex] = useState(0);
   const [selectedDate, setSelectedDate] = useState(null);
-  const [initialSelectionFlag, setInitialSelectionFlag] = useState(true);
   const [chartData, setChartData] = useState(null);
 
   useEffect(() => {
@@ -45,49 +46,20 @@ const Weather = props => {
 
   let dataAverages = [];
 
-  const splitDateAndTime = date => {
-    return date.dt_txt.split(" ");
-  };
-  const getFirstDay = data => {
-    return splitDateAndTime(data[0])[0];
-  };
-  const calculateChartsData = (selectedDate, data) => {
-    // categories for the chart
-    // ***********************************
-    // * ['00:00', '03:00', '06:00', ..] *
-    // ***********************************
-    //
-    // series for the chart
-    // ******************************************
-    // * {name: '', data: [49.9, 71.5, 106.4] } *
-    // ******************************************
-    console.log("selectedDate", selectedDate, "data", data);
-    return data.reduce(
-      (accum, dateItem) => {
-        const splittedDate = splitDateAndTime(dateItem);
-        if (splittedDate[0] === selectedDate) {
-          return {
-            categories: [...accum.categories, splittedDate[1]],
-            series: [...accum.series, dateItem.main.temp]
-          };
-        }
-        return {
-          ...accum
-        };
-      },
-      { categories: [], series: [] }
-    );
-  };
+  
   if (list) {
     dataAverages = calculateAvgTempAndHumidityOfDays(list);
     if (!chartData) {
+      setSelectedDate(getFirstDay(list));
       setChartData(calculateChartsData(getFirstDay(list), list));
     }
-    // // if(selectedDate!==getFirstDay)
-    // // setSelectedDate(getFirstDay(list));
-    // const chartData = calculateChartsData(getFirstDay(list), list);
-    // console.log(chartData);
   }
+  const handleCardClick = date => {
+    if (date !== selectedDate) {
+      setChartData(calculateChartsData(date, list));
+      setSelectedDate(date);
+    }
+  };
 
   return (
     <div>
@@ -142,12 +114,14 @@ const Weather = props => {
                     )}${currentScale}`}
                     humidity={item.avgHumidity}
                     date={item.date}
+                    handleCardClick={handleCardClick}
+                    isSelected={selectedDate===item.date}
                   />
                 );
               }
             })}
           </div>
-          {chartData && <BarChart chartData={chartData} />}
+          {chartData && <BarChart chartData={chartData} date={selectedDate} scale={currentScale} />}
         </div>
       )}
     </div>

@@ -1,12 +1,30 @@
 .cardWrapper {
   display: flex;
   width: 33%;
+  &.selected {
+    .ant-card {
+      &.ant-card-bordered {
+        border: 2px solid black;
+      }
+    }
+  }
   .ant-card {
     margin: 10px;
+    @media (max-width: 40em) {
+      margin: 5px;
+      span{
+        font-size: 12px;
+      }
+    }
     width: 100%;
     cursor: pointer;
     .bold-text {
       font-weight: bold;
+    }
+    .ant-card-body {
+      @media (max-width: 40em) {
+        padding: 3px;
+      }
     }
   }
 }
