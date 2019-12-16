@@ -1,0 +1,43 @@
+// lib
+import React from "react";
+import PropTypes from "prop-types";
+// Smart imports reduces the build size, instead of building the whole
+// library it builds with only specific components
+import AntDCard from "antd/lib/card";
+
+// src
+import "./Card.scss";
+
+const Card = props => {
+  const { temperature, date, humidity } = props;
+  return (
+    <div
+    className="cardWrapper"
+      onClick={() => {
+        console.log("clicked", date);
+      }}
+    >
+      <AntDCard hoverable>
+        <div>
+          <span className="bold-text">Temp: </span>
+          <span>{temperature}</span>
+        </div>
+        <div>
+          <span className="bold-text">Date: </span>
+          <span>{date}</span>
+        </div>
+        <div>
+          <span className="bold-text">humidity: </span>
+          <span>{humidity}</span>
+        </div>
+      </AntDCard>
+    </div>
+  );
+};
+
+Card.prototype = {
+  temperature: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
+  humidity: PropTypes.string.isRequired,
+};
+export default Card;
