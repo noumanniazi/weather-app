@@ -7,7 +7,7 @@ export const FETCH_DATA = "fetch_data";
 
 // Thanks for the key
 const API_KEY = "75f972b80e26f14fe6c920aa6a85ad57";
-const URL = `http://api.openweathermap.org/data/2.5/forecast?q=Munich,de&APPID=${API_KEY}&cnt=40&units=metric`;
+const URL = `https://api.openweathermap.org/data/2.5/forecast?q=Munich,de&APPID=${API_KEY}&cnt=40&units=metric`;
 
 export const startFetching = () => dispatch => {
   dispatch({
