@@ -19,6 +19,8 @@ import "./Weather.scss";
 import TemperatureScales from "../../components/TemperatureScales";
 import BarChart from "../../components/BarChart";
 
+const NUMBER_OF_VISIBLE_CARDS = 3;
+
 const Weather = props => {
   // STATEFUL Logic
   const [currentScale, setCurrentScale] = useState("C");
@@ -37,7 +39,7 @@ const Weather = props => {
       }
     };
     fetchAsychWrapper();
-    return () => {};
+    return () => { };
   }, []);
 
   // Calculation Logic
@@ -46,7 +48,7 @@ const Weather = props => {
 
   let dataAverages = [];
 
-  
+
   if (list) {
     dataAverages = calculateAvgTempAndHumidityOfDays(list);
     if (!chartData) {
@@ -60,6 +62,19 @@ const Weather = props => {
       setSelectedDate(date);
     }
   };
+
+  const getIndexByDate = (selectedDate, dataAverages) => {
+    return dataAverages.findIndex((el) => el.date === selectedDate);
+  }
+
+  const updatePageAndDate = (newIndex) => {
+    setPageIndex(newIndex);
+    const currentDateIndex = getIndexByDate(selectedDate, dataAverages);
+    if (currentDateIndex >= newIndex && currentDateIndex < newIndex + NUMBER_OF_VISIBLE_CARDS) {
+      return;
+    }
+    setSelectedDate(dataAverages[newIndex].date);
+  }
 
   return (
     <div>
@@ -79,7 +94,14 @@ const Weather = props => {
               {pageIndex > 0 && (
                 <Button
                   onClick={() => {
-                    setPageIndex(pageIndex - 1);
+                    // setPageIndex(pageIndex - 1);
+                    // so now i have updated the dates i am seeing, i will find if my selected date is within displayed range
+                    // if not update selected date to first index of displayed dates
+                    // displayed date range is pageIndex --> pageIndex +2
+                    // console.log('==>', dataAverages);
+                    // console.log('==>', pageIndex - 1);
+                    // console.log('==>', dataAverages[pageIndex - 1].date);
+                    updatePageAndDate(pageIndex - 1);
                   }}
                   type="primary"
                   shape="circle"
@@ -88,11 +110,15 @@ const Weather = props => {
                 </Button>
               )}
             </div>
-            {dataAverages.length - pageIndex > 3 && (
+            {dataAverages.length - pageIndex > NUMBER_OF_VISIBLE_CARDS && (
               <div>
                 <Button
                   onClick={() => {
-                    setPageIndex(pageIndex + 1);
+                    updatePageAndDate(pageIndex + 1)
+                    // setPageIndex(pageIndex + 1);
+                    // console.log('==>', dataAverages);
+                    // console.log('==>', pageIndex + 1);
+                    // console.log('==>', dataAverages[pageIndex + 1].date);
                   }}
                   type="primary"
                   shape="circle"
@@ -104,7 +130,7 @@ const Weather = props => {
           </div>
           <div className="temp-cards">
             {dataAverages.map((item, index) => {
-              if (index >= pageIndex && index < pageIndex + 3) {
+              if (index >= pageIndex && index < pageIndex + NUMBER_OF_VISIBLE_CARDS) {
                 return (
                   <Card
                     key={item.date}
@@ -115,7 +141,7 @@ const Weather = props => {
                     humidity={item.avgHumidity}
                     date={item.date}
                     handleCardClick={handleCardClick}
-                    isSelected={selectedDate===item.date}
+                    isSelected={selectedDate === item.date}
                   />
                 );
               }
