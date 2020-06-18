@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import AntDCard from "antd/lib/card";
 
 // src
+import { formatDate, DATE_FORMAT } from '../../utils';
 import "./Card.scss";
 
 const Card = props => {
@@ -24,7 +25,7 @@ const Card = props => {
         </div>
         <div>
           <span className="bold-text">Date: </span>
-          <span>{date}</span>
+          <span>{formatDate(date, DATE_FORMAT)}</span>
         </div>
         <div>
           <span className="bold-text">humidity: </span>

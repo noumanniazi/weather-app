@@ -1,3 +1,9 @@
+// lib
+import moment from 'moment';
+
+// src
+import { SERVER_DATE_FORMAT } from './commons';
+
 export const convertToFahrenheit = celsius => {
   return (celsius * 9) / 5 + 32;
 };
@@ -81,3 +87,7 @@ export const calculateChartsData = (selectedDate, data) => {
     { categories: [], series: [] }
   );
 };
+
+export const formatDate = (date, format) => {
+  return moment(date, SERVER_DATE_FORMAT).format(format);
+}

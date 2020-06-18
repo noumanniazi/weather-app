@@ -1,5 +1,7 @@
 export const SUCCESSFUL = "fetch_successful";
 export const UNSUCCESSFUL = "fetch_unsuccessful";
+export const SERVER_DATE_FORMAT = 'YYYY-MM-DD';
+export const DATE_FORMAT = 'DD MMMM, YYYY';
 export const chartConfig = {
   chart: {
     type: "column"

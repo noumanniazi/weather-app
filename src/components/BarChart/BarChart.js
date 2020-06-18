@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import ReactHighCharts from "react-highcharts";
 
 // src
-import { chartConfig, tempConverter } from "../../utils";
+import { chartConfig, tempConverter, formatDate, DATE_FORMAT } from "../../utils";
 
 const BarChart = props => {
   const { chartData, date, scale } = props;
@@ -14,7 +14,7 @@ const BarChart = props => {
   });
   const config = {
     ...chartConfig,
-    series: [{ name: date, data: convertedSeriest }],
+    series: [{ name: formatDate(date, DATE_FORMAT), data: convertedSeriest }],
     xAxis: {
       categories: chartData.categories
     },

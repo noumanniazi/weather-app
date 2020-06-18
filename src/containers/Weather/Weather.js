@@ -12,7 +12,7 @@ import {
   tempConverter,
   calculateAvgTempAndHumidityOfDays,
   calculateChartsData,
-  getFirstDay
+  getFirstDay,
 } from "../../utils";
 import Card from "../../components/Card";
 import "./Weather.scss";
@@ -74,6 +74,7 @@ const Weather = props => {
       return;
     }
     setSelectedDate(dataAverages[newIndex].date);
+    handleCardClick(dataAverages[newIndex].date);
   }
 
   return (
@@ -94,13 +95,6 @@ const Weather = props => {
               {pageIndex > 0 && (
                 <Button
                   onClick={() => {
-                    // setPageIndex(pageIndex - 1);
-                    // so now i have updated the dates i am seeing, i will find if my selected date is within displayed range
-                    // if not update selected date to first index of displayed dates
-                    // displayed date range is pageIndex --> pageIndex +2
-                    // console.log('==>', dataAverages);
-                    // console.log('==>', pageIndex - 1);
-                    // console.log('==>', dataAverages[pageIndex - 1].date);
                     updatePageAndDate(pageIndex - 1);
                   }}
                   type="primary"
@@ -115,10 +109,6 @@ const Weather = props => {
                 <Button
                   onClick={() => {
                     updatePageAndDate(pageIndex + 1)
-                    // setPageIndex(pageIndex + 1);
-                    // console.log('==>', dataAverages);
-                    // console.log('==>', pageIndex + 1);
-                    // console.log('==>', dataAverages[pageIndex + 1].date);
                   }}
                   type="primary"
                   shape="circle"
