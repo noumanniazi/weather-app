@@ -27,20 +27,25 @@ const Weather = props => {
   const [pageIndex, setPageIndex] = useState(0);
   const [selectedDate, setSelectedDate] = useState(null);
   const [chartData, setChartData] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     props.startFetching();
-    const fetchAsychWrapper = async () => {
-      const fetch_status = await props.fetchData();
-      if (fetch_status === SUCCESSFUL) {
-        props.stopFetching();
-      } else {
-        props.stopFetching();
-      }
-    };
     fetchAsychWrapper();
     return () => { };
   }, []);
+
+  const fetchAsychWrapper = async () => {
+    const fetchResponse = await props.fetchData();
+    if (fetchResponse.status === SUCCESSFUL) {
+      setError(null);
+      props.stopFetching();
+    } else {
+      // TODO: handle error
+      props.stopFetching();
+      setError(fetchResponse.error);
+    }
+  };
 
   // Calculation Logic
   const { isFetching, data } = props;
@@ -86,10 +91,27 @@ const Weather = props => {
       )}
       {!isFetching && (
         <div className="content-container">
-          <TemperatureScales
-            currentScale={currentScale}
-            setCurrentScale={setCurrentScale}
-          />
+          {/* TODO: move error bar to a component */}
+          {error !== null &&
+            <div className="error-bar">
+              {error}
+            </div>
+          }
+          <div className="header">
+            <TemperatureScales
+              currentScale={currentScale}
+              setCurrentScale={setCurrentScale}
+            />
+            <Button
+              onClick={() => {
+                props.startFetching();
+                fetchAsychWrapper();
+              }}
+              type="primary"
+            >
+              REFRESH
+            </Button>
+          </div>
           <div className="buttons-container">
             <div>
               {pageIndex > 0 && (

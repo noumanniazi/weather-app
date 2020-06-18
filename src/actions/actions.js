@@ -23,16 +23,22 @@ export const fetchData = () => dispatch => {
   // Fetch Logic
   return new Promise((resolve, reject) => {
     fetch(URL)
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          //throw something
+          throw new Error('Network response error.');
+        }
+        return response.json()
+      })
       .then(response => {
         dispatch({
           type: FETCH_DATA,
           payload: response
         });
-        resolve(SUCCESSFUL);
+        resolve({ status: SUCCESSFUL });
       })
       .catch(e => {
-        reject(UNSUCCESSFUL);
+        resolve({ status: UNSUCCESSFUL, error: `Something went wrong: ${e}` });
       });
   });
 };
